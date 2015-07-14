@@ -1,0 +1,13 @@
+Akka
+Akka.Cluster
+Akka.Logger.Serilog
+Akka.Remote
+Google.ProtocolBuffers
+Helios
+Microsoft.Bcl.Immutable
+Newtonsoft.Json
+Serilog
+Serilog.Sinks.EventLog
+Serilog.Sinks.Literate
+Topshelf
+Topshelf.Serilog
