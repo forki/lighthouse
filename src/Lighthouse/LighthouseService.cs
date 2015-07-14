@@ -10,36 +10,40 @@
 // under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
 // CONDITIONS OF ANY KIND, either express or implied. See the License for the 
 // specific language governing permissions and limitations under the License.
-using Akka.Actor;
-using Topshelf;
 
 namespace Lighthouse
 {
-    public class LighthouseService : ServiceControl
+  using System;
+  using Akka.Actor;
+  using Topshelf;
+
+  public class LighthouseService : ServiceControl
+  {
+    private readonly string ipAddress;
+    private readonly int? port;
+
+    private ActorSystem lighthouseSystem;
+
+    public LighthouseService() : this(null, null)
     {
-        private readonly string _ipAddress;
-        private readonly int? _port;
-
-        private ActorSystem _lighthouseSystem;
-
-        public LighthouseService() : this(null, null) { }
-
-        public LighthouseService(string ipAddress, int? port)
-        {
-            _ipAddress = ipAddress;
-            _port = port;
-        }
-
-        public bool Start(HostControl hostControl)
-        {
-            _lighthouseSystem = LighthouseHostFactory.LaunchLighthouse(_ipAddress, _port);
-            return true;
-        }
-
-        public bool Stop(HostControl hostControl)
-        {
-            _lighthouseSystem.Shutdown();
-            return true;
-        }
     }
+
+    public LighthouseService(string ipAddress, int? port)
+    {
+      this.ipAddress = ipAddress;
+      this.port = port;
+    }
+
+    public bool Start(HostControl hostControl)
+    {
+      this.lighthouseSystem = LighthouseHostFactory.LaunchLighthouse(this.ipAddress, this.port);
+      return true;
+    }
+
+    public bool Stop(HostControl hostControl)
+    {
+      this.lighthouseSystem.Shutdown();
+      return true;
+    }
+  }
 }
