@@ -1,16 +1,8 @@
 source https://www.nuget.org/api/v2/
 
-nuget Akka 1.0.4 framework: >= net45
 nuget Akka.Cluster 1.0.4.12-beta framework: >= net45
 nuget Akka.Logger.Serilog 1.0.4 framework: >= net45
-nuget Akka.Remote 1.0.4 framework: >= net45
-nuget Google.ProtocolBuffers 2.4.1.555 framework: >= net45
-nuget Helios 1.4.1 framework: >= net45
-nuget Microsoft.Bcl.Immutable 1.0.34 framework: >= net45
-nuget Newtonsoft.Json 7.0.1 framework: >= net45
-nuget Serilog framework: >= net45
 nuget Serilog.Sinks.EventLog framework: >= net45
 nuget Serilog.Sinks.Literate framework: >= net45
-nuget Topshelf framework: >= net45
 nuget Topshelf.Serilog framework: >= net45
 nuget fake
