@@ -1,5 +1,5 @@
 NUGET
-  remote: https://www.nuget.org/api/v2
+  remote: https://nuget.org/api/v2
   specs:
     Akka (1.0.4) - framework: >= net45
       Newtonsoft.Json (>= 7.0.1)
@@ -14,7 +14,7 @@ NUGET
       Akka (>= 1.0.4)
       Google.ProtocolBuffers (>= 2.4.1.521)
       Helios (>= 1.4.1)
-    FAKE (4.4.4)
+    FAKE (4.5.2)
     Google.ProtocolBuffers (2.4.1.555) - framework: >= net45
     Helios (1.4.1) - framework: >= net45
     Microsoft.Bcl.Immutable (1.0.34) - framework: >= net45
