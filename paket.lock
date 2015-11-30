@@ -14,7 +14,7 @@ NUGET
       Akka (>= 1.0.4)
       Google.ProtocolBuffers (>= 2.4.1.521)
       Helios (>= 1.4.1)
-    FAKE (4.9.3)
+    FAKE (4.9.6)
     Google.ProtocolBuffers (2.4.1.555) - framework: >= net45
     Helios (1.4.1) - framework: >= net45
     Microsoft.Bcl.Immutable (1.0.34) - framework: >= net45
