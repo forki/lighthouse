@@ -1,7 +1,7 @@
 source https://www.nuget.org/api/v2/
 
-nuget Akka.Cluster 1.0.4.12-beta framework: >= net45
-nuget Akka.Logger.Serilog 1.0.4 framework: >= net45
+nuget Akka.Cluster 1.0.5.15-beta framework: >= net45
+nuget Akka.Logger.Serilog 1.0.5 framework: >= net45
 nuget Serilog.Sinks.EventLog framework: >= net45
 nuget Serilog.Sinks.Literate framework: >= net45
 nuget Topshelf.Serilog framework: >= net45
