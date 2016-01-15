@@ -15,7 +15,7 @@ NUGET
       Akka (>= 1.0.5)
       Google.ProtocolBuffers (>= 2.4.1.521)
       Helios (>= 1.4.1)
-    FAKE (4.12.0)
+    FAKE (4.14.5)
     Google.ProtocolBuffers (2.4.1.555)
     Helios (1.4.1)
     Newtonsoft.Json (7.0.1)
