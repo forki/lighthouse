@@ -42,7 +42,7 @@ namespace Lighthouse
 
     public bool Stop(HostControl hostControl)
     {
-      this.lighthouseSystem.Shutdown();
+      this.lighthouseSystem.Terminate();
       return true;
     }
   }
