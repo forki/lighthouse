@@ -13,62 +13,67 @@
 
 namespace Lighthouse
 {
-  using System;
-  using System.Configuration;
-  using System.Linq;
-  using Akka.Actor;
-  using Akka.Configuration;
-  using Akka.Configuration.Hocon;
-  using ConfigurationException = Akka.Configuration.ConfigurationException;
+    using System;
+    using System.Configuration;
+    using System.Linq;
+    using Akka.Actor;
+    using Akka.Configuration;
+    using Akka.Configuration.Hocon;
+    using ConfigurationException = Akka.Configuration.ConfigurationException;
 
-  /// <summary>
-  /// Launcher for the Lighthouse <see cref="ActorSystem"/>
-  /// </summary>
-  public static class LighthouseHostFactory
-  {
-    public static ActorSystem LaunchLighthouse(string ipAddress = null, int? specifiedPort = null)
+    /// <summary>
+    /// Launcher for the Lighthouse <see cref="ActorSystem"/>
+    /// </summary>
+    public static class LighthouseHostFactory
     {
-      var systemName = "lighthouse";
-      var section = (AkkaConfigurationSection)ConfigurationManager.GetSection("akka");
-      var clusterConfig = section.AkkaConfig;
+        public static string Env(string name)
+        {
+            return Environment.GetEnvironmentVariable(name);
+        }
 
-      var lighthouseConfig = clusterConfig.GetConfig("lighthouse");
-      if (lighthouseConfig != null)
-      {
-        systemName = lighthouseConfig.GetString("actorsystem", systemName);
-      }
+        public static ActorSystem LaunchLighthouse(string ipAddress = null, int? specifiedPort = null)
+        {
+            var systemName = "lighthouse";
+            var section = (AkkaConfigurationSection) ConfigurationManager.GetSection("akka");
+            var clusterConfig = section.AkkaConfig;
 
-      var remoteConfig = clusterConfig.GetConfig("akka.remote");
-      ipAddress = ipAddress ??
-                       remoteConfig.GetString("helios.tcp.public-hostname") ??
-                       remoteConfig.GetString("helios.tcp.hostname"); //socket-local binding final default
+            var lighthouseConfig = clusterConfig.GetConfig("lighthouse");
+            if (lighthouseConfig != null)
+            {
+                systemName = Env("SYSTEM_NAME") ?? lighthouseConfig.GetString("actorsystem", systemName);
+            }
 
-      int port = specifiedPort ?? remoteConfig.GetInt("helios.tcp.port");
+            var remoteConfig = clusterConfig.GetConfig("akka.remote");
+            ipAddress = Env("IP") ?? ipAddress ??
+                        remoteConfig.GetString("helios.tcp.public-hostname") ??
+                        remoteConfig.GetString("helios.tcp.hostname"); //socket-local binding final default
 
-      if (port == 0)
-      {
-        throw new ConfigurationException(
-          "Need to specify an explicit port for Lighthouse. Found an undefined port or a port value of 0 in App.config.");
-      }
+            int port = (string.IsNullOrEmpty(Env("PORT")) ? (int?)null : int.Parse(Env("PORT"))) ?? specifiedPort ?? remoteConfig.GetInt("helios.tcp.port");
 
-      var selfAddress = string.Format("akka.tcp://{0}@{1}:{2}", systemName, ipAddress, port);
-      var seeds = clusterConfig.GetStringList("akka.cluster.seed-nodes");
-      if (!seeds.Contains(selfAddress))
-      {
-        seeds.Add(selfAddress);
-      }
+            if (port == 0)
+            {
+                throw new ConfigurationException(
+                    "Need to specify an explicit port for Lighthouse. Found an undefined port or a port value of 0 in App.config.");
+            }
 
-      var injectedClusterConfigString = seeds.Aggregate("akka.cluster.seed-nodes = [",
-        (current, seed) => current + (@"""" + seed + @""", "));
-      injectedClusterConfigString += "]";
+            var selfAddress = string.Format("akka.tcp://{0}@{1}:{2}", systemName, ipAddress, port);
+            var seeds = clusterConfig.GetStringList("akka.cluster.seed-nodes");
+            if (!seeds.Contains(selfAddress))
+            {
+                seeds.Add(selfAddress);
+            }
 
-      var finalConfig = ConfigurationFactory.ParseString(
-        string.Format(@"akka.remote.helios.tcp.public-hostname = {0} 
+            var injectedClusterConfigString = seeds.Aggregate("akka.cluster.seed-nodes = [",
+                (current, seed) => current + (@"""" + seed + @""", "));
+            injectedClusterConfigString += "]";
+
+            var finalConfig = ConfigurationFactory.ParseString(
+                string.Format(@"akka.remote.helios.tcp.public-hostname = {0} 
 akka.remote.helios.tcp.port = {1}", ipAddress, port))
-        .WithFallback(ConfigurationFactory.ParseString(injectedClusterConfigString))
-        .WithFallback(clusterConfig);
+                .WithFallback(ConfigurationFactory.ParseString(injectedClusterConfigString))
+                .WithFallback(clusterConfig);
 
-      return ActorSystem.Create(systemName, finalConfig);
+            return ActorSystem.Create(systemName, finalConfig);
+        }
     }
-  }
 }

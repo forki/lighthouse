@@ -1,10 +1,10 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{EC0D88CE-F54A-494C-9AEE-87B45F124536}"
 	ProjectSection(SolutionItems) = preProject
+		Dockerfile. = Dockerfile.
 		paket.dependencies = paket.dependencies
 	EndProjectSection
 EndProject
