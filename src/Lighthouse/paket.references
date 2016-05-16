@@ -1,5 +1,6 @@
 Akka.Cluster
 Akka.Logger.Serilog
+Akka.Serialization.Wire
 Serilog.Sinks.EventLog
 Serilog.Sinks.Literate
 Topshelf.Serilog
