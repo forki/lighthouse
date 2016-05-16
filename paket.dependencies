@@ -1,8 +1,8 @@
-framework: net45
+framework: net452
 source https://www.nuget.org/api/v2/
 
-nuget Akka.Cluster 1.0.7.18-beta
-nuget Akka.Logger.Serilog 1.0.7
+nuget Akka.Cluster 1.0.8.25-beta
+nuget Akka.Logger.Serilog 1.0.8
 nuget Helios 1.4.2
 nuget Newtonsoft.Json 7.0.1
 nuget Serilog.Sinks.EventLog
