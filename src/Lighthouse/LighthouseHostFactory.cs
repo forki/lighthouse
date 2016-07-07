@@ -56,7 +56,7 @@ namespace Lighthouse
                     "Need to specify an explicit port for Lighthouse. Found an undefined port or a port value of 0 in App.config.");
             }
 
-            var selfAddress = string.Format("akka.tcp://{0}@{1}:{2}", systemName, ipAddress, port);
+            var selfAddress = $"akka.tcp://{systemName}@{ipAddress}:{port.ToString()}";
             var seeds = clusterConfig.GetStringList("akka.cluster.seed-nodes");
             if (!seeds.Contains(selfAddress))
             {
@@ -68,8 +68,9 @@ namespace Lighthouse
             injectedClusterConfigString += "]";
 
             var finalConfig = ConfigurationFactory.ParseString(
-                string.Format(@"akka.remote.helios.tcp.public-hostname = {0} 
-akka.remote.helios.tcp.port = {1}", ipAddress, port))
+                $@"akka.remote.helios.tcp.public-hostname = {ipAddress} 
+akka.remote.helios.tcp.port = {port.ToString()
+                    }")
                 .WithFallback(ConfigurationFactory.ParseString(injectedClusterConfigString))
                 .WithFallback(clusterConfig);
 
