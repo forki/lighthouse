@@ -1,6 +1,9 @@
 Akka.Cluster
 Akka.Logger.Serilog
 Akka.Serialization.Wire
+Serilog.Enrichers.Environment
+Serilog.Enrichers.Thread
+Serilog.Enrichers.Process
 Serilog.Sinks.EventLog
 Serilog.Sinks.Literate
 Topshelf.Serilog

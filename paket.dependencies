@@ -1,11 +1,15 @@
 framework: net452
 source https://www.nuget.org/api/v2/
 
-nuget Akka.Cluster 1.1.0
-nuget Akka.Logger.Serilog 1.0.8
-nuget Akka.Serialization.Wire 1.1.0.26-beta
-nuget Helios 2.1.1
+nuget Akka.Cluster 1.1.1
+nuget Akka.Logger.Serilog 1.1.1
+nuget Akka.Serialization.Wire 1.1.1.28-beta
+nuget Wire 0.0.6
+nuget Helios 2.1.2
 nuget Newtonsoft.Json
+nuget Serilog.Enrichers.Environment
+nuget Serilog.Enrichers.Thread
+nuget Serilog.Enrichers.Process
 nuget Serilog.Sinks.EventLog
 nuget Serilog.Sinks.Literate
 nuget Topshelf.Serilog
