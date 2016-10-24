@@ -13,37 +13,35 @@
 
 namespace Lighthouse
 {
-  using System;
-  using Akka.Actor;
-  using Topshelf;
+    using System;
+    using System.Threading.Tasks;
+    using Akka.Actor;
 
-  public class LighthouseService : ServiceControl
-  {
-    private readonly string ipAddress;
-    private readonly int? port;
-
-    private ActorSystem lighthouseSystem;
-
-    public LighthouseService() : this(null, null)
+    public class LighthouseService
     {
-    }
+        private readonly string ipAddress;
+        private readonly int? port;
 
-    public LighthouseService(string ipAddress, int? port)
-    {
-      this.ipAddress = ipAddress;
-      this.port = port;
-    }
+        private ActorSystem lighthouseSystem;
 
-    public bool Start(HostControl hostControl)
-    {
-      this.lighthouseSystem = LighthouseHostFactory.LaunchLighthouse(this.ipAddress, this.port);
-      return true;
-    }
+        public LighthouseService() : this(null, null)
+        {
+        }
 
-    public bool Stop(HostControl hostControl)
-    {
-      this.lighthouseSystem.Terminate();
-      return true;
+        public LighthouseService(string ipAddress, int? port)
+        {
+            this.ipAddress = ipAddress;
+            this.port = port;
+        }
+
+        public void Start()
+        {
+            this.lighthouseSystem = LighthouseHostFactory.LaunchLighthouse(this.ipAddress, this.port);
+        }
+
+        public async Task StopAsync()
+        {
+            await this.lighthouseSystem.Terminate().ConfigureAwait(false);
+        }
     }
-  }
 }
