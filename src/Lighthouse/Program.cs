@@ -13,44 +13,50 @@
 
 namespace Lighthouse
 {
-  using System;
-  using Serilog;
-  using Serilog.Events;
-  using Topshelf;
+    using System;
+    using Serilog;
+    using Serilog.Events;
+    using Topshelf;
 
-  public class Program
-  {
-    public static int Main(string[] args)
+    public class Program
     {
-      ConfigureLogging();
+        public static int Main(string[] args)
+        {
+            ConfigureLogging();
 
-      return (int)HostFactory.Run(x =>
-      {
-        x.SetServiceName("Lighthouse");
-        x.SetDisplayName("Lighthouse Service Discovery");
-        x.SetDescription("Lighthouse Service Discovery for Akka.NET Clusters");
+            return (int) HostFactory.Run(x =>
+            {
+                x.Service<LighthouseService>(s =>
+                {
+                    s.ConstructUsing(ss => new LighthouseService());
+                    s.WhenStarted(ss => ss.Start());
+                    s.WhenStopped(ss => ss.StopAsync().Wait());
+                });
+                
+                x.SetServiceName("Lighthouse");
+                x.SetDisplayName("Lighthouse Service Discovery");
+                x.SetDescription("Lighthouse Service Discovery for Akka.NET Clusters");
 
-        x.UseAssemblyInfoForServiceInfo();
-        x.RunAsLocalSystem();
-        x.StartAutomatically();
-        x.UseSerilog();
-        x.Service<LighthouseService>();
-        x.EnableServiceRecovery(r => r.RestartService(1));
-      });
+                x.RunAsNetworkService();
+                x.StartAutomatically();
+                x.UseSerilog();
+                x.EnableServiceRecovery(r => r.RestartService(1));
+            });
+        }
+
+        private static void ConfigureLogging()
+        {
+            var logLayout = "{Timestamp:HH:mm} [{Level}] ({ThreadId}) {Message}{NewLine}{Exception}";
+
+            Log.Logger = new LoggerConfiguration()
+                .Enrich.FromLogContext()
+                .Enrich.WithProcessId()
+                .Enrich.WithThreadId()
+                .Enrich.WithMachineName()
+                .WriteTo.EventLog("Lighthouse", "Application", outputTemplate: logLayout,
+                    restrictedToMinimumLevel: LogEventLevel.Warning)
+                .WriteTo.LiterateConsole(outputTemplate: logLayout, restrictedToMinimumLevel: LogEventLevel.Information)
+                .CreateLogger();
+        }
     }
-
-    private static void ConfigureLogging()
-    {
-      var logLayout = "{Timestamp:HH:mm} [{Level}] ({ThreadId}) {Message}{NewLine}{Exception}";
-
-      Log.Logger = new LoggerConfiguration()
-        .Enrich.FromLogContext()
-        .Enrich.WithProcessId()
-        .Enrich.WithThreadId()
-        .Enrich.WithMachineName()
-        .WriteTo.EventLog("Lighthouse", "Application", outputTemplate: logLayout, restrictedToMinimumLevel: LogEventLevel.Warning)
-        .WriteTo.LiterateConsole(outputTemplate: logLayout, restrictedToMinimumLevel: LogEventLevel.Information)
-        .CreateLogger();
-    }
-  }
 }
