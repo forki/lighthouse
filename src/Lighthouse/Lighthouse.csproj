@@ -261,7 +261,7 @@
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.2'">
       <ItemGroup>
         <Reference Include="Wire">
-          <HintPath>..\..\packages\Wire\lib\Wire.dll</HintPath>
+          <HintPath>..\..\packages\Wire\lib\net45\Wire.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
