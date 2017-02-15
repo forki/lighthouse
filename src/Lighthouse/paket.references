@@ -1,6 +1,6 @@
 Akka.Cluster
 Akka.Logger.Serilog
-Akka.Serialization.Wire
+Akka.Serialization.Hyperion
 Serilog.Enrichers.Environment
 Serilog.Enrichers.Thread
 Serilog.Enrichers.Process
