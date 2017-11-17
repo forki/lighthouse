@@ -44,11 +44,11 @@ namespace Lighthouse
             }
 
             var remoteConfig = clusterConfig.GetConfig("akka.remote");
-            ipAddress = Env("IP") ?? ipAddress ??
-                        remoteConfig.GetString("helios.tcp.public-hostname") ??
-                        remoteConfig.GetString("helios.tcp.hostname"); //socket-local binding final default
+            ipAddress = ipAddress ??
+                        remoteConfig.GetString("dot-netty.tcp.public-hostname") ??
+                        "127.0.0.1"; //localhost as a final default
 
-            int port = (string.IsNullOrEmpty(Env("PORT")) ? (int?)null : int.Parse(Env("PORT"))) ?? specifiedPort ?? remoteConfig.GetInt("helios.tcp.port");
+            int port = specifiedPort ?? remoteConfig.GetInt("dot-netty.tcp.port");
 
             if (port == 0)
             {
@@ -68,8 +68,8 @@ namespace Lighthouse
             injectedClusterConfigString += "]";
 
             var finalConfig = ConfigurationFactory.ParseString(
-                $@"akka.remote.helios.tcp.public-hostname = {ipAddress} 
-akka.remote.helios.tcp.port = {port.ToString()
+                $@"akka.remote.dot-netty.tcp.public-hostname = {ipAddress} 
+akka.remote.dot-netty.tcp.port = {port.ToString()
                     }")
                 .WithFallback(ConfigurationFactory.ParseString(injectedClusterConfigString))
                 .WithFallback(clusterConfig);

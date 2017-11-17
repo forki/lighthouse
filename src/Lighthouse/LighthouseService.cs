@@ -13,7 +13,6 @@
 
 namespace Lighthouse
 {
-    using System;
     using System.Threading.Tasks;
     using Akka.Actor;
 
@@ -41,7 +40,7 @@ namespace Lighthouse
 
         public async Task StopAsync()
         {
-            await this.lighthouseSystem.Terminate().ConfigureAwait(false);
+            await this.lighthouseSystem.Terminate();
         }
     }
 }
