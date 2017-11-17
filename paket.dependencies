@@ -6,6 +6,8 @@ nuget Akka.Logger.Serilog 1.3.0
 nuget Akka.Serialization.Hyperion 1.3.2-beta54
 nuget Hyperion 0.9.6
 nuget Newtonsoft.Json 9.0.1
+nuget Petabridge.Cmd.Host
+nuget Petabridge.Cmd.Cluster
 nuget Serilog.Enrichers.Environment
 nuget Serilog.Enrichers.Thread
 nuget Serilog.Enrichers.Process

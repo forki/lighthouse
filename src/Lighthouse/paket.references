@@ -7,3 +7,5 @@ Serilog.Enrichers.Process
 Serilog.Sinks.EventLog
 Serilog.Sinks.Literate
 Topshelf.Serilog
+Petabridge.Cmd.Host
+Petabridge.Cmd.Cluster

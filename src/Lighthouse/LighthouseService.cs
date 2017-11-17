@@ -15,6 +15,8 @@ namespace Lighthouse
 {
     using System.Threading.Tasks;
     using Akka.Actor;
+    using Petabridge.Cmd.Cluster;
+    using Petabridge.Cmd.Host;
 
     public class LighthouseService
     {
@@ -36,6 +38,9 @@ namespace Lighthouse
         public void Start()
         {
             this.lighthouseSystem = LighthouseHostFactory.LaunchLighthouse(this.ipAddress, this.port);
+            var cmd = PetabridgeCmd.Get(lighthouseSystem);
+            cmd.RegisterCommandPalette(ClusterCommands.Instance);
+            cmd.Start();
         }
 
         public async Task StopAsync()
