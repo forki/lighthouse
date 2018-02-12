@@ -5,7 +5,7 @@ Serilog.Enrichers.Environment
 Serilog.Enrichers.Thread
 Serilog.Enrichers.Process
 Serilog.Sinks.EventLog
-Serilog.Sinks.Literate
+Serilog.Sinks.Console
 Topshelf.Serilog
 Petabridge.Cmd.Host
 Petabridge.Cmd.Cluster

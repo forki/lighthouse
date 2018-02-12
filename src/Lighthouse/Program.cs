@@ -55,7 +55,7 @@ namespace Lighthouse
                 .Enrich.WithMachineName()
                 .WriteTo.EventLog("Lighthouse", "Application", outputTemplate: logLayout,
                     restrictedToMinimumLevel: LogEventLevel.Warning)
-                .WriteTo.LiterateConsole(outputTemplate: logLayout, restrictedToMinimumLevel: LogEventLevel.Information)
+                .WriteTo.Console(outputTemplate: logLayout, restrictedToMinimumLevel: LogEventLevel.Information)
                 .CreateLogger();
         }
     }
